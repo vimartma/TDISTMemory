@@ -12,6 +12,8 @@ private Ficha seleccionada2;
 private int turno=0;
 private Jugador[] jug; 
 private Tablero tabAnterior=null;
+private boolean mismacarta=true;
+private boolean acertado=false;
 
 	public Partida() {
 	this.tab=new Tablero();
@@ -20,6 +22,7 @@ private Tablero tabAnterior=null;
 	jug=new Jugador[2];
 	jug[0]=new Jugador();
 	jug[1]=new Jugador();
+	
 
 	}
 	
@@ -36,7 +39,7 @@ private Tablero tabAnterior=null;
 		if(finPartida()) {
 			this.mostrarPuntos();
 		}else {
-			if(tabAnterior!=null) {
+			if(tabAnterior!=null && !acertado) {
 				System.out.println("-----------Jugada Anterior-----------");
 				tabAnterior.show();
 			}
@@ -51,15 +54,24 @@ private Tablero tabAnterior=null;
 		String c1 = fila1.nextLine();
 		int co1 = Integer.parseInt(c1);
 		seleccionar(fi1-1,co1-1);
-		
+		int fi2=9;
+		int co2=9;
+		while(mismacarta) {
 		System.out.println("Selecciona fila");
 		Scanner fila2 = new Scanner (System.in);
 		String f2 = fila1.nextLine();
-		int fi2 = Integer.parseInt(f2);
+		 fi2 = Integer.parseInt(f2);
 		System.out.println("Selecciona columna");
 		Scanner columna2 = new Scanner (System.in);
 		String c2 = fila1.nextLine();
-		int co2 = Integer.parseInt(c2);
+		 co2 = Integer.parseInt(c2);
+		if(fi1==fi2 && co1==co2) {}
+		else {
+			mismacarta=false;
+		}
+			
+		}
+		mismacarta=true;
 		seleccionar(fi2-1,co2-1);
 		
 		if (seleccionada1.igual(seleccionada2)) {
@@ -68,6 +80,7 @@ private Tablero tabAnterior=null;
 			if(!finPartida()) {
 				seleccionada1=null;
 				seleccionada2=null;
+				acertado=true;
 				this.jugar();
 				
 			}else {
@@ -76,6 +89,7 @@ private Tablero tabAnterior=null;
 			}
 			
 		}else {
+			acertado=false;
 			tabAnterior=tab.clonar();
 			seleccionada1=null;
 			seleccionada2=null;

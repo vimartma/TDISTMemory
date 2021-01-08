@@ -1,5 +1,7 @@
 package servidor;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,21 +22,32 @@ public Game(Socket so,Socket so2,Partida p) {
 public void run() {
 	
 try {
-	ObjectOutputStream dos1=new ObjectOutputStream(s1.getOutputStream());
-	ObjectInputStream din1=new ObjectInputStream(s1.getInputStream());
+	ObjectOutputStream oos1=new ObjectOutputStream(s1.getOutputStream());
+	ObjectInputStream oin1=new ObjectInputStream(s1.getInputStream());
 	
-	ObjectOutputStream dos2=new ObjectOutputStream(s2.getOutputStream());
-	ObjectInputStream din2=new ObjectInputStream(s2.getInputStream());
+	ObjectOutputStream oos2=new ObjectOutputStream(s2.getOutputStream());
+	ObjectInputStream oin2=new ObjectInputStream(s2.getInputStream());
+	
+	String nombre1;
+	String nombre2;
+	oos1.writeBytes("Introduce tu nombre\r\n");
+	oos1.flush();
+	nombre1=oin1.readLine();
+	
+	oos2.writeBytes("Introduce tu nombre\r\n");
+	oos2.flush();
+	nombre2=oin2.readLine();
+	if(nombre1.equals(nombre2)) {nombre2+="(2)";}
 	
 	while(!p1.finPartida()) {
 		if(p1.turnoAct()==1) {
-	dos1.writeObject(p1);
-	dos1.flush();
-	p1=(Partida) din1.readObject();
+	oos1.writeObject(p1);
+	oos1.flush();
+	p1=(Partida) oin1.readObject();
 		}else {
-			dos2.writeObject(p1);
-			dos2.flush();
-			p1=(Partida) din2.readObject();
+			oos2.writeObject(p1);
+			oos2.flush();
+			p1=(Partida) oin2.readObject();
 		}
 	
 	

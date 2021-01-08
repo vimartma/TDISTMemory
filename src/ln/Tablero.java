@@ -50,7 +50,6 @@ public void setFicha(int a,int b,Ficha f) {
 }
 
 public Ficha getFicha(int a,int b) {
-	girar(a,b);
 	return tablero[a][b];
 }
 public Ficha dupFicha(int a,int b) {

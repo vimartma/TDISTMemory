@@ -12,26 +12,34 @@ private Ficha seleccionada2;
 private int turno=0;
 private Jugador[] jug; 
 private Tablero tabAnterior=null;
-private boolean mismacarta=true;
+private boolean cartasel=true;
 private boolean acertado=false;
 
 	public Partida() {
-	this.tab=new Tablero();
-	seleccionada1=null;
-	seleccionada2=null;
-	jug=new Jugador[2];
-	jug[0]=new Jugador();
-	jug[1]=new Jugador();
-	
+		this.tab=new Tablero();
+		seleccionada1=null;
+		seleccionada2=null;
+		jug=new Jugador[2];
+		jug[0]=new Jugador();
+		jug[1]=new Jugador();
+		
 
 	}
 	
-	public void seleccionar(int a,int b) {
-		if(this.seleccionada1==null) {
-		this.seleccionada1=tab.getFicha(a, b);
-		tab.show();
+	public boolean seleccionar(int a,int b) {
+		Ficha f=tab.getFicha(a, b);
+		if(f.girada()) {
+			return false;
 		}else {
-		this.seleccionada2=tab.getFicha(a, b);
+			if(this.seleccionada1==null) {
+					this.seleccionada1=tab.getFicha(a, b);
+						tab.girar(a, b);
+						tab.show();
+		}else {
+			this.seleccionada2=tab.getFicha(a, b);
+			tab.girar(a, b);
+		}
+		return true;
 		}
 		
 	}
@@ -45,34 +53,46 @@ private boolean acertado=false;
 			}
 		System.out.println("------------------Nueva Jugada------------------");
 		tab.show();
-		System.out.println("Selecciona fila");
-		Scanner fila1 = new Scanner (System.in);
-		String f1 = fila1.nextLine();
-		int fi1 = Integer.parseInt(f1);
-		System.out.println("Selecciona columna");
-		Scanner columna1 = new Scanner (System.in);
-		String c1 = fila1.nextLine();
-		int co1 = Integer.parseInt(c1);
-		seleccionar(fi1-1,co1-1);
-		int fi2=9;
-		int co2=9;
-		while(mismacarta) {
-		System.out.println("Selecciona fila");
-		Scanner fila2 = new Scanner (System.in);
-		String f2 = fila1.nextLine();
-		 fi2 = Integer.parseInt(f2);
-		System.out.println("Selecciona columna");
-		Scanner columna2 = new Scanner (System.in);
-		String c2 = fila1.nextLine();
-		 co2 = Integer.parseInt(c2);
-		if(fi1==fi2 && co1==co2) {}
-		else {
-			mismacarta=false;
+		int fi1=99;
+		int co1=99;
+		int fi2=99;
+		int co2=99;
+		while(cartasel) {
+			System.out.println("Selecciona fila");
+			Scanner fila1 = new Scanner (System.in);
+			String f1 = fila1.nextLine();
+			fi1 = Integer.parseInt(f1);
+			System.out.println("Selecciona columna");
+			Scanner columna1 = new Scanner (System.in);
+			String c1 = fila1.nextLine();
+			co1 = Integer.parseInt(c1);
+			if(fi1-1>3 || co1-1>3 || fi1-1<0 || co1-1<0) {
+				cartasel=true;
+				System.out.println("Has introducido valores no validos, pruebe de nuevo");
+			}else {
+				cartasel=!seleccionar(fi1-1,co1-1);
+				if(cartasel) {System.out.println("Esta carta ya ha sido seleccionada, seleccione otra");}
+			}
 		}
-			
+		cartasel=true;
+		while(cartasel) {
+			System.out.println("Selecciona fila");
+			Scanner fila2 = new Scanner (System.in);
+			String f2 = fila2.nextLine();
+			fi2 = Integer.parseInt(f2);
+			System.out.println("Selecciona columna");
+			Scanner columna2 = new Scanner (System.in);
+			String c2 = columna2.nextLine();
+			co2 = Integer.parseInt(c2);
+			if(fi2-1>3 || co2-1>3 || fi2-1<0 || co2-1<0) {
+				cartasel=true;
+				System.out.println("Has introducido valores no validos, pruebe de nuevo");
+			}else {
+				cartasel=!seleccionar(fi2-1,co2-1);
+				if(cartasel) {System.out.println("Esta carta ya ha sido seleccionada, seleccione otra");}
+			}
 		}
-		mismacarta=true;
-		seleccionar(fi2-1,co2-1);
+		cartasel=true;
 		
 		if (seleccionada1.igual(seleccionada2)) {
 			
@@ -107,8 +127,8 @@ private boolean acertado=false;
 	}
 	
 	private void mostrarPuntos() {
-		System.out.println("El jugador 1 ha obtenido "+this.jug[0].puntos());
-		System.out.println("El jugador 2 ha obtenido "+this.jug[1].puntos());
+		System.out.println("El jugador "+this.jug[0].getNombre()+" ha obtenido "+this.jug[0].puntos());
+		System.out.println("El jugador "+this.jug[1].getNombre()+" ha obtenido "+this.jug[1].puntos());
 		
 	}
 
@@ -128,6 +148,10 @@ private boolean acertado=false;
 	}
 	public int turnoAct(){
 		return this.turno+1;
+	}
+	public void setNombresJug(String j1,String j2) {
+		this.jug[0].setNombre(j1);
+		this.jug[1].setNombre(j2);
 	}
 	
 	

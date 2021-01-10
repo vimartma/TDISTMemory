@@ -38,6 +38,7 @@ try {
 	oos2.flush();
 	nombre2=oin2.readLine();
 	if(nombre1.equals(nombre2)) {nombre2+="(2)";}
+	p1.setNombresJug(nombre1, nombre2);
 	
 	while(!p1.finPartida()) {
 		if(p1.turnoAct()==1) {
@@ -49,9 +50,15 @@ try {
 			oos2.flush();
 			p1=(Partida) oin2.readObject();
 		}
-	
-	
 }
+	if(p1.turnoAct()==1) {
+	oos1.writeObject(p1);
+	oos1.flush();
+		}else {
+			oos2.writeObject(p1);
+			oos2.flush();
+		}
+	
 }catch(IOException ex) {ex.printStackTrace();} catch (ClassNotFoundException e) {
 	// TODO Auto-generated catch block
 	e.printStackTrace();

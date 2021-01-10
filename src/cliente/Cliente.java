@@ -27,6 +27,7 @@ public class Cliente {
 					oos.writeObject(p1);
 					oos.flush();
 				}
+				
 			
 		}
 		catch(IOException | ClassNotFoundException ex) {			

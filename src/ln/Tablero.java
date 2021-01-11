@@ -6,16 +6,15 @@ import java.util.Random;
 
 
 public class Tablero implements Serializable{
-/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-private Ficha[][] tablero;
+	private Ficha[][] tablero;
 public Tablero() {
 	generarTablero();
 }
 
 private void generarTablero() {
+	//Genera el tablero inicial
 	Random r = new Random();
 	tablero = new Ficha[4][4];
 	int posi;
@@ -46,20 +45,25 @@ private void generarTablero() {
 		}
 	}
 public void setFicha(int a,int b,Ficha f) {
+	//Coloca la ficha f en la posicion indicada por a y b
 	this.tablero[a][b]=f;
 }
 
 public Ficha getFicha(int a,int b) {
+	//Obtiene la ficha en la posicion a b
 	return tablero[a][b];
 }
 public Ficha dupFicha(int a,int b) {
+	// Devuelve una copia exacta de la ficha en la posicion a b
 	return tablero[a][b].duplicar();
 }
 
 public void girar(int a,int b) {
+	//Gira la ficha de la posicion a b
 	tablero[a][b].girar();
 }
 public void show() {
+	//Muestra por pantalla el tablero
 	
 	String fila=new String();
 	int i=0;
@@ -76,6 +80,7 @@ public void show() {
 	}
 }
 public boolean todasGiradas() {
+	//Devuelve true si todas las fichas muestran numeros, false en caso contrario
 	int i=0;
 	int o=0;
 	while(i<4) {
@@ -92,6 +97,7 @@ public boolean todasGiradas() {
 	
 }
 public Tablero clonar() {
+	//Devuelve un tablero igual
 	Tablero t=new Tablero();
 	int i=0;
 	int o=0;

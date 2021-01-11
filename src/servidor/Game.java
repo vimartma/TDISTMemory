@@ -22,12 +22,13 @@ public Game(Socket so,Socket so2,Partida p) {
 public void run() {
 	
 try {
+	//Obtenemos los Streams a partir de los sockets
 	ObjectOutputStream oos1=new ObjectOutputStream(s1.getOutputStream());
 	ObjectInputStream oin1=new ObjectInputStream(s1.getInputStream());
 	
 	ObjectOutputStream oos2=new ObjectOutputStream(s2.getOutputStream());
 	ObjectInputStream oin2=new ObjectInputStream(s2.getInputStream());
-	
+	//Obtenemos los nombres de los jugadores
 	String nombre1;
 	String nombre2;
 	oos1.writeBytes("Introduce tu nombre\r\n");
@@ -39,7 +40,7 @@ try {
 	nombre2=oin2.readLine();
 	if(nombre1.equals(nombre2)) {nombre2+="(2)";}
 	p1.setNombresJug(nombre1, nombre2);
-	
+	//Parte en la que se juega la partida
 	while(!p1.finPartida()) {
 		if(p1.turnoAct()==1) {
 	oos1.writeObject(p1);
@@ -51,6 +52,7 @@ try {
 			p1=(Partida) oin2.readObject();
 		}
 }
+	//Envio del mensaje final al jugador que no acaba la partida
 	if(p1.turnoAct()==1) {
 	oos1.writeObject(p1);
 	oos1.flush();

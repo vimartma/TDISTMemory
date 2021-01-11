@@ -27,6 +27,7 @@ private boolean acertado=false;
 	}
 	
 	public boolean seleccionar(int a,int b) {
+		//Si es posible selecciona la ficha que se encuentra en la fila a y la columna b del tablero asociado a la partida
 		Ficha f=tab.getFicha(a, b);
 		if(f.girada()) {
 			return false;
@@ -44,6 +45,7 @@ private boolean acertado=false;
 		
 	}
 	public void jugar() {
+		//Permite al jugador realizar una jugada en una partida
 		if(finPartida()) {
 			this.mostrarPuntos();
 		}else {
@@ -127,12 +129,15 @@ private boolean acertado=false;
 	}
 	
 	private void mostrarPuntos() {
+		//Muestra el resultado de una partida al final de esta
+		System.out.println("--La partida ha terminado, todas las fichas han sido emparejadas--");
 		System.out.println("El jugador "+this.jug[0].getNombre()+" ha obtenido "+this.jug[0].puntos());
 		System.out.println("El jugador "+this.jug[1].getNombre()+" ha obtenido "+this.jug[1].puntos());
 		
 	}
 
 	private void cambiaTurno() {
+		//Cambia el turno al otro jugador
 		if(this.turno==0) {
 			this.turno=1;
 		}else {
@@ -141,15 +146,18 @@ private boolean acertado=false;
 	}
 
 	public boolean finPartida() {
+		//Devuelve true si la partida ha terminado, false en caso contrario
 		if(tab.todasGiradas()) {
 			return true;
 		}
 		return false;
 	}
 	public int turnoAct(){
+		//Devuelve el turno actual
 		return this.turno+1;
 	}
 	public void setNombresJug(String j1,String j2) {
+		//Cambia el nombre de los jugadores de la partida
 		this.jug[0].setNombre(j1);
 		this.jug[1].setNombre(j2);
 	}
